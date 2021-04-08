@@ -13,29 +13,31 @@ export class SignUp extends Component {
           unitApt: '',
           email: '',
           city: '',
-          provincy: '',
+          provincy: 0,
           cities: [],
           provinces: [],
       };
 
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleCityChange = this.handleCityChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-      fetch("http://localhost:57712/api/v1/State", {
+      const request = new Request("http://localhost:57712/api/v1/State", {
+          method: "get",
           mode: 'cors',
           headers: {
-              'Access-Control-Allow-Origin': '*'
+             'Access-Control-Allow-Origin': '*'
           },
-      })
-          .then(res => res.json)
-          .then((result) => {
-              this.setState({
-                  provinces: result,
-              });
-              console.log(this.state.provinces)
-          });
+      });
+
+      fetch(request)
+          .then(response => response.json())
+          .then(body => {
+              this.setState({ provinces: body.data });
+          })
+          
   }
 
   handleInputChange(event) {
@@ -47,10 +49,33 @@ export class SignUp extends Component {
       });
   }
 
+  handleCityChange(event) {
+      const target = event.target;
+      const value = target.value;
+      this.setState({
+          provincy: value,
+      });
+
+      const request = new Request(`http://localhost:57712/api/v1/City/GetAll/${value}`, {
+          method: "get",
+          mode: 'cors',
+          headers: {
+              'Access-Control-Allow-Origin': '*'
+          },
+      });
+
+      fetch(request)
+          .then(response => response.json())
+          .then(body => {
+              this.setState({ cities: body });
+              console.log(this.state.cities);
+          })
+  }
+
   handleSubmit(event) {
       event.preventDefault();
       var erros = [];
-      const { firstName, lastName, streetAddress, unitApt, email } = this.state;
+      const { firstName, lastName, streetAddress, unitApt, email, provincy, city } = this.state;
 
       if (firstName.length > 40) {
           document.querySelector('#firstName').classList.add('is-invalid');
@@ -102,15 +127,40 @@ export class SignUp extends Component {
           document.querySelector('.email small').style.display = 'none';
       }
 
+      if (provincy === 0) {
+          document.querySelector('#provincy').classList.add('is-invalid');
+          document.querySelector('#city').classList.add('is-invalid');
+          erros.push(1);
+      } else {
+          document.querySelector('#provincy').classList.remove('is-invalid');
+          document.querySelector('#provincy').classList.add('is-valid');
+          document.querySelector('#city').classList.remove('is-invalid');
+          document.querySelector('#city').classList.add('is-valid');
+      }
+
       if (erros.length === 0) {
-          const json = {
+          const data = {
               "name": `${firstName} ${lastName}`,
               "address": streetAddress ,
               "address2": unitApt,
+              "province": provincy.toString(),
+              "city": city,
               "email": email
           };
 
-          console.log(json);
+          fetch("http://localhost:57712/api/v1/Contact/SendContact", {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+          })
+              .then((data) => {
+                  alert("Contact has been successfully saved")
+                  console.log(data.text())
+              })
+
+          console.log(data);
       } else {
           return false;
       }
@@ -175,8 +225,13 @@ export class SignUp extends Component {
                 <Col md={6}>
                     <FormGroup>
                         <Label htmlFor="provincy">Provincy</Label>
-                        <Input type="select" name="provincy" id="provincy" onChange={this.handleInputChange} required>
-                            <option value="0">Select</option>
+                        <Input type="select" name="provincy" id="provincy" onChange={this.handleCityChange} required>
+                              <option value="0">Select</option>
+                              {
+                                  this.state.provinces.map(province => (
+                                      <option key={province.idState} value={province.idState}>{province.name}</option>
+                                  ))
+                              }
                         </Input>
                     </FormGroup>
                 </Col>
@@ -184,7 +239,12 @@ export class SignUp extends Component {
                     <FormGroup>
                         <Label htmlFor="city">City</Label>
                         <Input type="select" name="city" id="city" onChange={this.handleInputChange} required>
-                            <option value="0">Select</option>
+                              <option value="0">Select</option>
+                              {
+                                  this.state.cities.map(city => (
+                                      <option key={city.idCity} value={city.name}>{city.name}</option>
+                                  ))
+                              }
                         </Input>
                     </FormGroup>
                 </Col>

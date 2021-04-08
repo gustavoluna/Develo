@@ -15,6 +15,7 @@ namespace Develo.WebApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration _config { get; }
         public Startup(IConfiguration configuration)
         {
@@ -22,6 +23,19 @@ namespace Develo.WebApi
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:57712",
+                                                          "https://localhost:44324")
+                                                            .AllowAnyHeader()
+                                                            .AllowAnyMethod(); 
+                                  });
+            });
+
+
             services.AddApplicationLayer();
             services.AddIdentityInfrastructure(_config);
             services.AddPersistenceInfrastructure(_config);
@@ -44,6 +58,7 @@ namespace Develo.WebApi
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

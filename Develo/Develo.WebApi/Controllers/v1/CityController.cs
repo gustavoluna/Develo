@@ -1,6 +1,7 @@
 ﻿using Develo.Application.Features.Cities.Queries.GetCitiesByProvince;
 using Develo.Application.Filters;
 using Develo.Application.Interfaces;
+using Develo.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,12 +24,11 @@ namespace Develo.WebApi.Controllers.v1
 
 
         [HttpGet("GetAll/{IdState}")]
-        public async Task<IActionResult> GetAll(int IdState)
+        public IEnumerable<City> GetAll(int IdState)
         {
-            var result = await _cityService.GetCity(IdState);
+            var result = _cityService.GetCity(IdState).Result;
 
-            return Ok(result);
-
+            return result;
         }
     }
 }
