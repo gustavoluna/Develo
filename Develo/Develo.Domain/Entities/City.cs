@@ -9,9 +9,9 @@ namespace Develo.Domain.Entities
     public class City
     {
         [Key]
-        public string IdCity { get; set; }
+        public int IdCity { get; set; }
         public string Name { get; set; }
         [ForeignKey("State")]
-        public string IdState { get; set; }
+        public int IdState { get; set; }
     }
 }

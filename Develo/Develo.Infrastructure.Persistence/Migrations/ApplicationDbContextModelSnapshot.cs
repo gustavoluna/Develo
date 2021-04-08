@@ -21,11 +21,13 @@ namespace Develo.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Develo.Domain.Entities.City", b =>
                 {
-                    b.Property<string>("IdCity")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("IdCity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("IdState")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdState")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

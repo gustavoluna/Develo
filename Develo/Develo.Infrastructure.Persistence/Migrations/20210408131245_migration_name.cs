@@ -11,9 +11,10 @@ namespace Develo.Infrastructure.Persistence.Migrations
                 name: "City",
                 columns: table => new
                 {
-                    IdCity = table.Column<string>(nullable: false),
+                    IdCity = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    IdState = table.Column<string>(nullable: true)
+                    IdState = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

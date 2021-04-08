@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,6 +58,22 @@ namespace Develo.Infrastructure.Persistence.Repository
             return await _dbContext
                  .Set<T>()
                  .ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, params string[] navigationProperties)
+        {
+
+            List<T> list;
+            using (_dbContext)
+            {
+                var query = _dbContext.Set<T>().AsQueryable();
+
+                foreach (string navigationProperty in navigationProperties)
+                    query = query.Include(navigationProperty);//got to reaffect it.
+
+                list = query.Where(predicate).ToList<T>();
+            }
+            return list;
         }
     }
 }

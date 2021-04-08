@@ -14,6 +14,7 @@ namespace Develo.Infrastructure.Shared
             services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IStateService, StateService>();
+            services.AddTransient<ICityService, CityService>();
         }
     }
 }
