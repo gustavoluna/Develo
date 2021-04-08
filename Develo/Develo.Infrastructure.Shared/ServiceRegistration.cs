@@ -13,6 +13,7 @@ namespace Develo.Infrastructure.Shared
             services.Configure<MailSettings>(_config.GetSection("MailSettings"));
             services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IStateService, StateService>();
         }
     }
 }

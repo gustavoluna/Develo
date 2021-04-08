@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Develo.Application.Features.Products.Commands.CreateProduct;
 using Develo.Application.Features.Products.Queries.GetAllProducts;
+using Develo.Application.Features.States.Queries.GetAllStates;
 using Develo.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace Develo.Application.Mappings
         public GeneralProfile()
         {
             CreateMap<Product, GetAllProductsViewModel>().ReverseMap();
+            CreateMap<State, GetAllStatesViewModel>().ReverseMap();
             CreateMap<CreateProductCommand, Product>();
             CreateMap<GetAllProductsQuery, GetAllProductsParameter>();
+            CreateMap<GetAllStatesQuery, GetAllStatesParameter>();
         }
     }
 }

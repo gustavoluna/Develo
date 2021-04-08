@@ -14,6 +14,11 @@ namespace Develo.Application.Features.Products.Queries.GetProductById
     public class GetProductByIdQuery : IRequest<Response<Product>>
     {
         public int Id { get; set; }
+
+
+
+
+
         public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Response<Product>>
         {
             private readonly IProductRepositoryAsync _productRepository;
