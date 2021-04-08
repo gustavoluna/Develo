@@ -22,10 +22,10 @@ namespace Develo.WebApi.Controllers.v1
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAll/{IdState}")]
+        public async Task<IActionResult> GetAll(int IdState)
         {
-            var result = await _cityService.GetCity(1);
+            var result = await _cityService.GetCity(IdState);
 
             return Ok(result);
 
