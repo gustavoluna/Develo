@@ -27,6 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{E97DD2B5-1DAD-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeveloUI", "DeveloUI\DeveloUI.csproj", "{8EC88A09-BAB9-4338-B8DB-901E4CD4DB46}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "script", "script", "{8D0403DB-4A36-44A1-94E2-102FA5451B5D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\script.sql = ..\..\..\Desktop\script.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
