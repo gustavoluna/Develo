@@ -156,8 +156,8 @@ export class SignUp extends Component {
               body: JSON.stringify(data),
           })
               .then((data) => {
-                  alert("Contact has been successfully saved")
-                  console.log(data.text())
+                  alert("Contact has been successfully saved");
+                  window.location.reload();
               })
 
           console.log(data);
@@ -169,7 +169,7 @@ export class SignUp extends Component {
 
   render() {
       return (
-        <Form onSubmit={this.handleSubmit}>
+        <Form id="form" onSubmit={this.handleSubmit}>
             <FormGroup className="firstName">
                 <Label htmlFor="firstName">First Name</Label>
                 <Input
